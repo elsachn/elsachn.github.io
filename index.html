@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elsa Chaerun Nisa — ML Engineer | HVAC & R&D</title>
+<title>Elsa Chaerun Nisa — ML Engineer | HVAC and Energy System</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg: #1a1320;
     --bg-soft: #251a2e;
     --bg-card: #221829;
+    --bg-card-hover: #2a1d31;
     --border: rgba(255,200,220,0.1);
+    --border-hover: rgba(255,143,177,0.3);
     --text: #f5ebf2;
     --text-muted: #b09cb0;
+    --text-dim: #8a7890;
     --accent: #ff8fb1;
     --accent-2: #c89bd9;
     --accent-3: #f5c2c7;
+    --gold: #f5d2a0;
     --grad: linear-gradient(135deg, #ff8fb1 0%, #c89bd9 50%, #f5c2c7 100%);
+    --grad-gold: linear-gradient(135deg, #f5d2a0 0%, #ff8fb1 100%);
   }
   html { scroll-behavior: smooth; }
   body {
@@ -27,7 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* Animated background grid */
   .grid-bg {
     position: fixed; inset: 0; z-index: 0;
     background-image:
@@ -42,21 +46,21 @@
   }
   .glow-1 { background: var(--accent); top: -200px; left: -200px; }
   .glow-2 { background: var(--accent-2); bottom: -200px; right: -200px; }
+  .glow-3 { background: var(--gold); top: 40%; right: -200px; opacity: 0.1; }
 
-  /* Navigation */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 48px;
+    padding: 16px 48px;
     display: flex; justify-content: space-between; align-items: center;
-    background: rgba(26,19,32,0.8);
+    background: rgba(26,19,32,0.85);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
   .logo { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
   .logo span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
   .nav-links a {
-    color: var(--text-muted); text-decoration: none; font-size: 14px;
+    color: var(--text-muted); text-decoration: none; font-size: 13px;
     font-weight: 500; transition: color 0.2s; position: relative;
   }
   .nav-links a:hover { color: var(--text); }
@@ -67,9 +71,8 @@
   }
   .nav-links a:hover::after { transform: scaleX(1); }
 
-  section { position: relative; z-index: 1; padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
+  section { position: relative; z-index: 1; padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
 
-  /* Hero */
   .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 80px; }
   .status-pill {
     display: inline-flex; align-items: center; gap: 10px;
@@ -81,12 +84,13 @@
   @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,143,177,0.6); } 50% { opacity: 0.6; box-shadow: 0 0 0 10px rgba(255,143,177,0); } }
 
   h1 {
-    font-size: clamp(48px, 7vw, 88px); font-weight: 800;
+    font-size: clamp(44px, 7vw, 84px); font-weight: 800;
     letter-spacing: -2.5px; line-height: 1.05; margin-bottom: 16px;
   }
   h1 .grad { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .name-cn { font-size: clamp(20px, 2.5vw, 28px); color: var(--accent-2); font-weight: 400; margin-left: 12px; }
   .hero-subtitle {
-    font-size: clamp(20px, 2.5vw, 28px); color: var(--text-muted);
+    font-size: clamp(18px, 2.5vw, 26px); color: var(--text-muted);
     font-weight: 400; margin-bottom: 32px; max-width: 720px;
   }
   .hero-subtitle strong { color: var(--text); font-weight: 600; }
@@ -102,134 +106,199 @@
   .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Section headers */
   .section-label {
     display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 2px;
     color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
   }
-  h2 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 24px; line-height: 1.1; }
-  .section-intro { font-size: 17px; color: var(--text-muted); max-width: 680px; margin-bottom: 64px; line-height: 1.7; }
+  h2 { font-size: clamp(34px, 5vw, 52px); font-weight: 800; letter-spacing: -1.5px; margin-bottom: 20px; line-height: 1.1; }
+  h2 .grad { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .section-intro { font-size: 16px; color: var(--text-muted); max-width: 680px; margin-bottom: 56px; line-height: 1.7; }
 
-  /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 40px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
   .stat-card {
     background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px; transition: all 0.3s;
+    border-radius: 16px; padding: 24px; transition: all 0.3s;
   }
   .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-  .stat-num { font-size: 42px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
-  .stat-label { font-size: 14px; color: var(--text-muted); }
+  .stat-num { font-size: 38px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; line-height: 1; }
+  .stat-label { font-size: 13px; color: var(--text-muted); }
 
   /* Skills */
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
   .skill-card {
     background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
+    border-radius: 16px; padding: 26px; transition: all 0.3s; position: relative; overflow: hidden;
   }
   .skill-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
     background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
   }
   .skill-card:hover::before { transform: scaleX(1); }
-  .skill-card:hover { transform: translateY(-4px); border-color: rgba(124,92,255,0.3); }
+  .skill-card:hover { transform: translateY(-4px); border-color: var(--border-hover); }
   .skill-icon {
-    width: 48px; height: 48px; border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     background: rgba(255,143,177,0.1); display: flex; align-items: center; justify-content: center;
-    margin-bottom: 20px; border: 1px solid rgba(255,143,177,0.2);
+    margin-bottom: 18px; border: 1px solid rgba(255,143,177,0.2);
   }
-  .skill-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
-  .skill-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .skill-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+  .skill-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
   .tag {
-    font-size: 12px; padding: 4px 10px; border-radius: 6px;
+    font-size: 11px; padding: 3px 9px; border-radius: 6px;
     background: rgba(200,155,217,0.12); color: #e0c4f0; border: 1px solid rgba(200,155,217,0.25);
   }
 
   /* Projects */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 22px; }
   .project-card {
     background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px; transition: all 0.3s; position: relative; overflow: hidden;
+    border-radius: 20px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
   }
-  .project-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-6px); }
+  .project-card:hover { border-color: var(--border-hover); transform: translateY(-6px); }
   .project-card::after {
     content: ''; position: absolute; top: -50%; right: -50%; width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,143,177,0.1) 0%, transparent 70%);
     opacity: 0; transition: opacity 0.3s;
   }
   .project-card:hover::after { opacity: 1; }
-  .project-number { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing: 2px; }
-  .project-card h3 { font-size: 22px; font-weight: 700; margin: 12px 0 16px; letter-spacing: -0.5px; }
-  .project-card p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
-  .project-tech { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tech-chip { font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+  .project-number { font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 2px; }
+  .project-card h3 { font-size: 20px; font-weight: 700; margin: 10px 0 14px; letter-spacing: -0.5px; }
+  .project-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-chip { font-size: 11px; padding: 3px 9px; border-radius: 6px; background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
 
-  /* Timeline / Experience */
+  /* Timeline */
   .timeline { position: relative; padding-left: 32px; }
   .timeline::before {
     content: ''; position: absolute; left: 8px; top: 12px; bottom: 12px;
     width: 2px; background: linear-gradient(180deg, var(--accent), var(--accent-2), transparent);
   }
-  .timeline-item { position: relative; padding-bottom: 40px; }
+  .timeline-item { position: relative; padding-bottom: 36px; }
   .timeline-item::before {
-    content: ''; position: absolute; left: -32px; top: 6px; width: 18px; height: 18px;
+    content: ''; position: absolute; left: -32px; top: 6px; width: 16px; height: 16px;
     border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
-    box-shadow: 0 0 0 4px rgba(0,212,255,0.15);
+    box-shadow: 0 0 0 4px rgba(255,143,177,0.15);
   }
-  .timeline-date { font-size: 13px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
-  .timeline-title { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
-  .timeline-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 10px; }
-  .timeline-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+  .timeline-date { font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .timeline-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .timeline-sub { font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px; }
+  .timeline-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
+  .timeline-desc em { color: var(--accent-3); font-style: italic; }
 
   /* Publications */
-  .pub-list { display: flex; flex-direction: column; gap: 14px; }
+  .pub-list { display: flex; flex-direction: column; gap: 12px; }
   .pub-item {
     background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
-    padding: 20px 24px; transition: all 0.3s; display: flex; gap: 20px; align-items: flex-start;
+    padding: 18px 22px; transition: all 0.3s; display: flex; gap: 18px; align-items: flex-start;
     text-decoration: none; color: inherit;
   }
-  .pub-item:hover { border-color: rgba(0,212,255,0.3); transform: translateX(4px); background: #161e33; }
+  .pub-item:hover { border-color: var(--border-hover); transform: translateX(4px); background: var(--bg-card-hover); }
   .pub-year { flex-shrink: 0; font-size: 14px; font-weight: 700; color: var(--accent); min-width: 50px; padding-top: 2px; }
   .pub-content { flex: 1; }
-  .pub-journal { font-size: 12px; color: var(--accent-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-  .pub-title { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--text); }
-  .pub-arrow { color: var(--text-muted); transition: transform 0.3s; flex-shrink: 0; padding-top: 6px; }
+  .pub-journal { font-size: 11px; color: var(--accent-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .pub-title { font-size: 14.5px; font-weight: 500; line-height: 1.5; color: var(--text); margin-bottom: 6px; }
+  .pub-doi { font-size: 11px; color: var(--text-dim); font-family: 'SF Mono', Monaco, monospace; }
+  .pub-arrow { color: var(--text-muted); transition: transform 0.3s; flex-shrink: 0; padding-top: 6px; font-size: 18px; }
   .pub-item:hover .pub-arrow { color: var(--accent); transform: translate(4px, -4px); }
+
+  /* Conferences */
+  .conf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .conf-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; transition: all 0.3s; position: relative;
+  }
+  .conf-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+  .conf-flag { font-size: 11px; color: var(--accent-2); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .conf-year { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(255,143,177,0.1); color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+  .conf-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .conf-paper { font-size: 13px; color: var(--text-muted); line-height: 1.6; font-style: italic; }
+
+  /* Awards */
+  .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .award-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px; transition: all 0.3s; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .award-card:hover { border-color: rgba(245,210,160,0.3); transform: translateY(-3px); }
+  .award-icon {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(245,210,160,0.15), rgba(255,143,177,0.15));
+    border: 1px solid rgba(245,210,160,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .award-content { flex: 1; }
+  .award-year { font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .award-title { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.4; }
+  .award-org { font-size: 12.5px; color: var(--text-muted); }
+
+  /* Certifications */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .cert-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; transition: all 0.3s;
+  }
+  .cert-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .cert-org { font-size: 11px; color: var(--accent-2); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .cert-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+  .cert-year { font-size: 12px; color: var(--text-dim); }
+
+  /* Languages */
+  .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .lang-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px; transition: all 0.3s;
+  }
+  .lang-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+  .lang-name { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .lang-level { font-size: 12.5px; color: var(--accent); font-weight: 500; margin-bottom: 12px; }
+  .lang-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .lang-fill { height: 100%; background: var(--grad); border-radius: 3px; }
+
+  /* Internships */
+  .intern-list { display: flex; flex-direction: column; gap: 16px; }
+  .intern-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 24px; transition: all 0.3s;
+  }
+  .intern-card:hover { border-color: var(--border-hover); }
+  .intern-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 16px; flex-wrap: wrap; }
+  .intern-company { font-size: 16px; font-weight: 600; color: var(--text); }
+  .intern-date { font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .intern-role { font-size: 13px; color: var(--accent-2); margin-bottom: 10px; }
+  .intern-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
 
   /* Contact */
   .contact-card {
-    background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(124,92,255,0.05));
-    border: 1px solid rgba(124,92,255,0.2); border-radius: 24px; padding: 56px;
+    background: linear-gradient(135deg, rgba(255,143,177,0.06), rgba(200,155,217,0.06));
+    border: 1px solid rgba(255,143,177,0.2); border-radius: 24px; padding: 56px;
     text-align: center; position: relative; overflow: hidden;
   }
   .contact-card h2 { margin-bottom: 16px; }
-  .contact-card p { color: var(--text-muted); max-width: 520px; margin: 0 auto 32px; font-size: 17px; }
-  .contact-methods { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .contact-card p { color: var(--text-muted); max-width: 520px; margin: 0 auto 32px; font-size: 16px; }
+  .contact-methods { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
   .contact-btn {
-    display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px;
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px;
     background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
-    color: var(--text); text-decoration: none; font-size: 14px; transition: all 0.3s;
+    color: var(--text); text-decoration: none; font-size: 13.5px; transition: all 0.3s;
   }
   .contact-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-  /* Footer */
   footer {
     text-align: center; padding: 40px 48px; border-top: 1px solid var(--border);
     color: var(--text-muted); font-size: 13px; position: relative; z-index: 1;
   }
 
-  /* Reveal animations */
   .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* Responsive */
   @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .nav-links { gap: 18px; font-size: 13px; }
-    section { padding: 80px 20px; }
+    nav { padding: 14px 18px; }
+    .nav-links { gap: 14px; font-size: 12px; }
+    section { padding: 70px 20px; }
     .contact-card { padding: 32px 20px; }
+    .timeline { padding-left: 28px; }
   }
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .nav-links { display: none; }
   }
 </style>
@@ -239,36 +308,40 @@
 <div class="grid-bg"></div>
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
 
 <nav>
-  <div class="logo">Elsa<span>.</span></div>
+  <div class="logo"><span></span></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#publications">Publications</a></li>
+    <li><a href="#conferences">Conferences</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#awards">Awards</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO / ABOUT -->
+<!-- HERO -->
 <section class="hero" id="about">
   <div class="status-pill">
     <span class="status-dot"></span>
-    <span>Open to new opportunities</span>
+    <span>Senior Engineer @ TECO Electric &amp; Machinery Co., Ltd.</span>
   </div>
 
-  <h1>
-    Elsa Chaerun Nisa<br>
-    <span class="grad">ML Engineer</span> for HVAC &amp; R&amp;D
-  </h1>
+<h1>
+    Elsa Chaerun Nisa, Ph.D.<span class="name-cn"> </span><br>
+    <span style="font-size: 0.85em; font-weight: 600;"><span class="grad">ML Engineer</span> for HVAC and Energy System</span>
+</h1>
 
   <p class="hero-subtitle">
     Bridging <strong>artificial intelligence</strong> and <strong>thermal engineering</strong> — from predictive models to real-time deployed systems.
   </p>
 
   <p class="hero-bio">
-    Ph.D. graduate from National Chin-Yi University of Technology (Taiwan), specializing in AI applications for thermal, cooling, and HVAC system modeling, optimization, and real-time web integration. Experienced in machine learning, genetic algorithms, full-stack system deployment (Jetson Nano, web apps), and published in high-impact international journals.
+    Senior Engineer at TECO Electric &amp; Machinery and Ph.D. graduate from National Chin-Yi University of Technology (Taiwan), specializing in AI applications for thermal, cooling, and HVAC system modeling, optimization, and real-time web integration. Experienced in machine learning, genetic algorithms, full-stack system deployment (Jetson Nano, web apps), and published in high-impact international journals.
   </p>
 
   <div class="cta-group">
@@ -279,19 +352,19 @@
   <div class="stats-grid">
     <div class="stat-card reveal">
       <div class="stat-num">Ph.D</div>
-      <div class="stat-label">in Precision Manufacturing, NCUT Taiwan</div>
+      <div class="stat-label">Precision Manufacturing, NCUT</div>
     </div>
     <div class="stat-card reveal">
-      <div class="stat-num">6+</div>
+      <div class="stat-num">6</div>
       <div class="stat-label">International journal publications</div>
     </div>
     <div class="stat-card reveal">
-      <div class="stat-num">10+</div>
-      <div class="stat-label">HVAC + AI research projects</div>
+      <div class="stat-num">9</div>
+      <div class="stat-label">International &amp; Taiwan conferences</div>
     </div>
     <div class="stat-card reveal">
-      <div class="stat-num">6+</div>
-      <div class="stat-label">International conferences</div>
+      <div class="stat-num">7</div>
+      <div class="stat-label">Awards &amp; honors</div>
     </div>
   </div>
 </section>
@@ -299,13 +372,13 @@
 <!-- SKILLS -->
 <section id="skills">
   <span class="section-label reveal">What I do</span>
-  <h2 class="reveal">Turning thermal data into <span style="background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">intelligent systems</span></h2>
+  <h2 class="reveal">Turning thermal data into <span class="grad">intelligent systems</span></h2>
   <p class="section-intro reveal">I combine deep learning, optimization algorithms, and engineering domain knowledge to solve real-world HVAC and energy challenges.</p>
 
   <div class="skills-grid">
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M22 12a10 10 0 0 0-10-10"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M22 12a10 10 0 0 0-10-10"/></svg>
       </div>
       <h3>Predictive modeling</h3>
       <p>Building deep neural networks to forecast power consumption, temperature, humidity, and system behavior across chillers, AHUs, and HVAC equipment.</p>
@@ -316,10 +389,10 @@
 
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m15.5-7.5L17 8m-10 8l-2.5 2.5M19.5 19.5L17 17M7 7L4.5 4.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m15.5-7.5L17 8m-10 8l-2.5 2.5M19.5 19.5L17 17M7 7L4.5 4.5"/></svg>
       </div>
       <h3>System optimization</h3>
-      <p>Applying genetic algorithms to discover optimal operating parameters — reducing energy consumption, preventing fogging, and improving performance.</p>
+      <p>Applying genetic algorithms to discover optimal operating parameters — reducing energy consumption, preventing fogging, improving efficiency.</p>
       <div class="skill-tags">
         <span class="tag">Genetic Algorithm</span><span class="tag">Clustering</span><span class="tag">Association Rules</span>
       </div>
@@ -327,10 +400,10 @@
 
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10h8M8 14h5"/></svg>
       </div>
       <h3>Anomaly detection</h3>
-      <p>1D convolutional autoencoders for real-time anomaly detection in brine chillers and ice storage air conditioning systems — deployed on edge devices.</p>
+      <p>1D convolutional autoencoders for real-time anomaly detection in brine chillers and ice storage AC systems — deployed on edge devices.</p>
       <div class="skill-tags">
         <span class="tag">Autoencoders</span><span class="tag">Jetson Orin Nano</span>
       </div>
@@ -338,7 +411,7 @@
 
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
       </div>
       <h3>Full-stack deployment</h3>
       <p>Designing and shipping real-time web-based monitoring applications — bringing ML models from notebook to production on embedded hardware.</p>
@@ -349,7 +422,7 @@
 
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/></svg>
       </div>
       <h3>HVAC domain expertise</h3>
       <p>Deep understanding of chillers, AHUs, fans, compressors, data center cooling, ice rinks, and multi-zone building systems — grounded in refrigeration engineering.</p>
@@ -360,12 +433,12 @@
 
     <div class="skill-card reveal">
       <div class="skill-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M10 13l2 2 4-4"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8fb1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M10 13l2 2 4-4"/></svg>
       </div>
-      <h3>Research & publication</h3>
-      <p>Published in Elsevier and MDPI high-impact journals. Presented at international conferences in Japan, Korea, and Taiwan across 2020–2025.</p>
+      <h3>Engineering tools</h3>
+      <p>Hands-on with simulation, design, and CAD tools used across the HVAC and electromechanical industries.</p>
       <div class="skill-tags">
-        <span class="tag">Elsevier</span><span class="tag">MDPI</span><span class="tag">Conferences</span>
+        <span class="tag">MATLAB</span><span class="tag">Simulink</span><span class="tag">SolidWorks</span><span class="tag">AutoCAD</span><span class="tag">ANSYS Maxwell</span><span class="tag">BIM</span>
       </div>
     </div>
   </div>
@@ -375,7 +448,7 @@
 <section id="projects">
   <span class="section-label reveal">Featured work</span>
   <h2 class="reveal">Research projects</h2>
-  <p class="section-intro reveal">A selection of AI + HVAC research projects completed during my Ph.D. research at NCUT.</p>
+  <p class="section-intro reveal">Eight major AI + HVAC research projects completed during my Ph.D. research at NCUT — from prediction models to real-world deployed systems.</p>
 
   <div class="projects-grid">
     <div class="project-card reveal">
@@ -419,7 +492,7 @@
       <h3>Axial Fan Design Optimization</h3>
       <p>Predicted fan pressure and airflow rate using DNN. Optimized design parameters with a genetic algorithm — combining deep learning with classical engineering design principles.</p>
       <div class="project-tech">
-        <span class="tech-chip">DNN</span><span class="tech-chip">Genetic Algorithm</span><span class="tech-chip">CFD</span>
+        <span class="tech-chip">DNN</span><span class="tech-chip">Genetic Algorithm</span><span class="tech-chip">Fan Design</span>
       </div>
     </div>
 
@@ -431,49 +504,23 @@
         <span class="tech-chip">ML</span><span class="tech-chip">AHU control</span><span class="tech-chip">Genetic Algorithm</span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- EXPERIENCE TIMELINE -->
-<section id="experience">
-  <span class="section-label reveal">Journey</span>
-  <h2 class="reveal">Education &amp; experience</h2>
-  <p class="section-intro reveal">From refrigeration engineering in Indonesia to Ph.D. research in Taiwan.</p>
-
-  <div class="timeline">
-    <div class="timeline-item reveal">
-      <div class="timeline-date">Feb 2021 – Aug 2025</div>
-      <div class="timeline-title">Ph.D. — Precision Manufacturing</div>
-      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
-      <div class="timeline-desc">Dissertation: "Artificial Intelligence Applications for HVAC System Modeling and Optimization with Web-based Integration."</div>
+    <div class="project-card reveal">
+      <div class="project-number">PROJECT / 07</div>
+      <h3>Chiller Optimization with Data Mining</h3>
+      <p>Built chiller power prediction models using neural networks. Applied clustering to analyze weather conditions and discovered hidden operational patterns using association rule mining.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Neural Networks</span><span class="tech-chip">Clustering</span><span class="tech-chip">Association Rules</span>
+      </div>
     </div>
 
-    <div class="timeline-item reveal">
-      <div class="timeline-date">Mar 2019 – Jul 2025</div>
-      <div class="timeline-title">Research Assistant — NCUT</div>
-      <div class="timeline-sub">AI + HVAC Research Lab</div>
-      <div class="timeline-desc">Led 8+ research projects spanning chillers, AHUs, data centers, ice rinks, axial fans, and ice storage — applying ML, deep learning, and genetic algorithms to real HVAC systems.</div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-date">Feb 2019 – Feb 2021</div>
-      <div class="timeline-title">M.Sc. — Refrigeration, AC &amp; Energy Engineering</div>
-      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
-      <div class="timeline-desc">Thesis: "Energy Management Strategies for Water-Cooled Chiller using Deep Learning Models."</div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-date">2017 – 2019</div>
-      <div class="timeline-title">Internships — Industry HVAC experience</div>
-      <div class="timeline-sub">Rechi Precision (Taiwan), Arya Jaya &amp; Panasonic Gobel (Indonesia)</div>
-      <div class="timeline-desc">Heat pump &amp; compressor testing, electric motor design with ANSYS Maxwell, HVAC layout design with AutoCAD, and VRF system design for commercial buildings.</div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-date">Sept 2014 – Jul 2018</div>
-      <div class="timeline-title">B.A.Sc. — Refrigeration &amp; AC Engineering</div>
-      <div class="timeline-sub">Bandung Polytechnic, Indonesia — Cum Laude</div>
-      <div class="timeline-desc">Final project: "Analysis of Air Conditions and Quality in the Cleanroom of Sanbe Farma." Graduated with Outstanding Final Project Award.</div>
+    <div class="project-card reveal">
+      <div class="project-number">PROJECT / 08</div>
+      <h3>Chiller Power Time-Series Forecasting</h3>
+      <p>Developed chiller power prediction models using MLP. Built time-series forecasting models comparing MLP, 1D-CNN, and LSTM architectures for water-cooled chiller systems.</p>
+      <div class="project-tech">
+        <span class="tech-chip">MLP</span><span class="tech-chip">1D-CNN</span><span class="tech-chip">LSTM</span>
+      </div>
     </div>
   </div>
 </section>
@@ -481,63 +528,391 @@
 <!-- PUBLICATIONS -->
 <section id="publications">
   <span class="section-label reveal">Research output</span>
-  <h2 class="reveal">Publications</h2>
-  <p class="section-intro reveal">Peer-reviewed articles in high-impact international journals.</p>
+  <h2 class="reveal">International <span class="grad">publications</span></h2>
+  <p class="section-intro reveal">Peer-reviewed articles in high-impact international journals — Elsevier and MDPI.</p>
 
   <div class="pub-list">
-    <a href="https://doi.org/10.1016/j.engappai.2025.110472" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.1016/j.engappai.2025.110472" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2025</div>
       <div class="pub-content">
         <div class="pub-journal">Engineering Applications of Artificial Intelligence — Elsevier</div>
         <div class="pub-title">Investigate dual chiller characteristics and improve performance by integrating machine learning and genetic algorithms</div>
+        <div class="pub-doi">doi.org/10.1016/j.engappai.2025.110472</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
 
-    <a href="https://doi.org/10.1016/j.jobe.2024.110411" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.1016/j.jobe.2024.110411" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2024</div>
       <div class="pub-content">
         <div class="pub-journal">Journal of Building Engineering — Elsevier</div>
         <div class="pub-title">Leveraging multi-zone building data with machine learning-based models and genetic algorithms to optimize air handling units</div>
+        <div class="pub-doi">doi.org/10.1016/j.jobe.2024.110411</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
 
-    <a href="https://doi.org/10.1016/j.buildenv.2024.111553" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.1016/j.buildenv.2024.111553" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2024</div>
       <div class="pub-content">
         <div class="pub-journal">Building and Environment — Elsevier</div>
         <div class="pub-title">Machine learning-based modeling and fogging prevention strategies for ice rink environments</div>
+        <div class="pub-doi">doi.org/10.1016/j.buildenv.2024.111553</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
 
-    <a href="https://doi.org/10.3390/pr11010122" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.3390/pr11010122" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2022</div>
       <div class="pub-content">
         <div class="pub-journal">Processes — MDPI</div>
         <div class="pub-title">Combining deep neural network with genetic algorithm for axial flow fan design and development</div>
+        <div class="pub-doi">doi.org/10.3390/pr11010122</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
 
-    <a href="https://doi.org/10.3390/en14206494" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.3390/en14206494" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2021</div>
       <div class="pub-content">
         <div class="pub-journal">Energies — MDPI</div>
         <div class="pub-title">Chiller optimization using data mining based on prediction model, clustering and association rule mining</div>
+        <div class="pub-doi">doi.org/10.3390/en14206494</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
 
-    <a href="https://doi.org/10.3390/su13020744" target="_blank" class="pub-item reveal">
+    <a href="https://doi.org/10.3390/su13020744" target="_blank" rel="noopener" class="pub-item reveal">
       <div class="pub-year">2021</div>
       <div class="pub-content">
         <div class="pub-journal">Sustainability — MDPI</div>
         <div class="pub-title">Comparative assessment to predict and forecast water-cooled chiller power consumption using machine learning and deep learning algorithms</div>
+        <div class="pub-doi">doi.org/10.3390/su13020744</div>
       </div>
       <div class="pub-arrow">↗</div>
     </a>
+  </div>
+</section>
+
+<!-- CONFERENCES -->
+<section id="conferences">
+  <span class="section-label reveal">Speaking & presenting</span>
+  <h2 class="reveal">Conference <span class="grad">presentations</span></h2>
+  <p class="section-intro reveal">Research presented at international and Taiwan conferences across HVAC, refrigeration, and energy engineering.</p>
+
+  <div class="conf-grid">
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇯🇵 INTERNATIONAL</div>
+      <span class="conf-year">2024</span>
+      <div class="conf-name">Japan Society of Refrigerating and Air Conditioning Engineers</div>
+      <div class="conf-paper">"Optimizing Air Handling Units in Multi-Zone Buildings Using Deep Neural Networks and Genetic Algorithms"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇰🇷 INTERNATIONAL</div>
+      <span class="conf-year">2024</span>
+      <div class="conf-name">11th Asian Conference on Refrigeration and Air-conditioning, Korea</div>
+      <div class="conf-paper">"Optimizing Precision Air Conditioning in Data Center Using Deep Neural Network Models and Genetic Algorithm"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇯🇵 INTERNATIONAL</div>
+      <span class="conf-year">2023</span>
+      <div class="conf-name">Japan Society of Refrigerating and Air Conditioning Engineers</div>
+      <div class="conf-paper">"LSTM-Based Power Forecasting for IT and Non-IT Components in Data Center Rooms"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇹🇼 TAIWAN</div>
+      <span class="conf-year">2023</span>
+      <div class="conf-name">Taiwan Society of Heating, Refrigerating and Air Conditioning Engineers (TSHRAE)</div>
+      <div class="conf-paper">"Single Step Power Forecasting for IT and Non-IT Components in Data Center Room using LSTM Algorithm"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇹🇼 TAIWAN</div>
+      <span class="conf-year">2022</span>
+      <div class="conf-name">台灣太陽能及新能源學會 (Taiwan Solar Energy &amp; New Energy Society)</div>
+      <div class="conf-paper">"A Graphical-User-Interface (GUI) application for chiller energy saving by optimizing operating parameter based on neural network and genetic algorithm"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇹🇼 TAIWAN</div>
+      <span class="conf-year">2022</span>
+      <div class="conf-name">International Society of Mechatronic Engineering</div>
+      <div class="conf-paper">"Chiller Energy-saving Optimization using Artificial Neural Networks and Genetic Algorithm"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇹🇼 TAIWAN</div>
+      <span class="conf-year">2020</span>
+      <div class="conf-name">Energy, Refrigerating, and Air-conditioning Conference, Taiwan</div>
+      <div class="conf-paper">"Comparison between Thermodynamics Model and Artificial Neural Networks Model for Predicting Chiller Power Consumption"</div>
+    </div>
+
+    <div class="conf-card reveal">
+      <div class="conf-flag">🇹🇼 TAIWAN</div>
+      <span class="conf-year">2020</span>
+      <div class="conf-name">30th National Conference on Combustion and Energy, Taiwan</div>
+      <div class="conf-paper">"Power consumption forecasting using recurrent neural network for water-cooled chiller"</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <span class="section-label reveal">Journey</span>
+  <h2 class="reveal">Education &amp; experience</h2>
+  <p class="section-intro reveal">From refrigeration engineering in Indonesia to Ph.D. research in Taiwan.</p>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-date">DEC 2025 – PRESENT</div>
+      <div class="timeline-title">Senior Engineer</div>
+      <div class="timeline-sub">TECO Electric &amp; Machinery Co., Ltd. — Taiwan</div>
+      <div class="timeline-desc">Applying AI and machine learning expertise to HVAC and electrical machinery systems at one of Taiwan's leading electromechanical manufacturers.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">FEB 2021 – AUG 2025</div>
+      <div class="timeline-title">Ph.D. — Precision Manufacturing</div>
+      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
+      <div class="timeline-desc">Dissertation: <em>"Artificial Intelligence Applications for HVAC System Modeling and Optimization with Web-based Integration."</em></div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">MAR 2019 – JUL 2025</div>
+      <div class="timeline-title">Research Assistant — NCUT</div>
+      <div class="timeline-sub">AI + HVAC Research Lab, Taiwan</div>
+      <div class="timeline-desc">Led 8 major research projects across chillers, AHUs, data centers, ice rinks, axial fans, and ice storage AC systems — applying ML, deep learning, and genetic algorithms to real HVAC systems with real-time deployment.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">SEPT 2022 – JAN 2023</div>
+      <div class="timeline-title">Teaching Assistant — Computer-Aided 3D Drawing</div>
+      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
+      <div class="timeline-desc">Prepared SolidWorks teaching materials and exercises for 3D modeling. Provided consultations and technical assistance to students. Graded assignments and projects.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">FEB 2020 – JUL 2020</div>
+      <div class="timeline-title">Teaching Assistant — Electromechanical Integration Practice</div>
+      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
+      <div class="timeline-desc">Prepared and demonstrated sample Arduino codes for various sensors. Graded student programming assignments. Provided group consultations to support debugging final projects.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">FEB 2019 – FEB 2021</div>
+      <div class="timeline-title">M.Sc. — Refrigeration, AC &amp; Energy Engineering</div>
+      <div class="timeline-sub">National Chin-Yi University of Technology, Taiwan</div>
+      <div class="timeline-desc">Thesis: <em>"Energy Management Strategies for Water-Cooled Chiller using Deep Learning Models."</em></div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-date">SEPT 2014 – JUL 2018</div>
+      <div class="timeline-title">B.A.Sc. — Refrigeration &amp; AC Engineering</div>
+      <div class="timeline-sub">Bandung Polytechnic, Indonesia — Cum Laude</div>
+      <div class="timeline-desc">Final project: <em>"Analysis of Air Conditions and Quality in the Cleanroom of Sanbe Farma."</em> Graduated with Outstanding Final Project Award.</div>
+    </div>
+  </div>
+
+  <h2 class="reveal" style="margin-top: 80px; font-size: clamp(28px, 4vw, 40px);">Industry internships</h2>
+  <p class="section-intro reveal">Hands-on experience across HVAC manufacturing, electrical motor design, and system installation.</p>
+
+  <div class="intern-list">
+    <div class="intern-card reveal">
+      <div class="intern-header">
+        <div>
+          <div class="intern-company">Rechi Precision Co., Ltd. (瑞智精密)</div>
+          <div class="intern-role">HVAC, Electric Motor &amp; Compressor Departments — Taiwan</div>
+        </div>
+        <div class="intern-date">JUL – AUG 2019</div>
+      </div>
+      <div class="intern-desc">Performance and noise testing of heat pump systems and window AC. Designed electric motors, tested rotor voltage, resolved leakage current issues, and used ANSYS Maxwell for motor simulation. Tested compressor efficiency and noise levels.</div>
+    </div>
+
+    <div class="intern-card reveal">
+      <div class="intern-header">
+        <div>
+          <div class="intern-company">Arya Jaya — Indonesia</div>
+          <div class="intern-role">HVAC System Design</div>
+        </div>
+        <div class="intern-date">JUL – AUG 2017</div>
+      </div>
+      <div class="intern-desc">Designed HVAC system layout for the Ceres factory using AutoCAD. Selected appropriate pipe and duct sizes based on industry standards. Planned and drafted pipe and duct routing for HVAC distribution.</div>
+    </div>
+
+    <div class="intern-card reveal">
+      <div class="intern-header">
+        <div>
+          <div class="intern-company">Panasonic Gobel — Indonesia</div>
+          <div class="intern-role">HVAC Engineering</div>
+        </div>
+        <div class="intern-date">JAN – FEB 2017</div>
+      </div>
+      <div class="intern-desc">Calculated cooling load requirements for a hospital building. Designed a Variable Refrigerant Flow (VRF) system using Panasonic Air Conditioning Design Software. Observed and assisted in maintenance procedures of split-type AC units.</div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <span class="section-label reveal">Recognition</span>
+  <h2 class="reveal">Awards &amp; <span class="grad">honors</span></h2>
+  <p class="section-intro reveal">Recognition from international engineering societies, universities, and foundations.</p>
+
+  <div class="awards-grid">
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2023</div>
+        <div class="award-title">Honorable Mention — 6th Student Excellent Paper Competition</div>
+        <div class="award-org">Taiwan Society of Heating, Refrigerating, and Air Conditioning Engineers (TSHRAE)</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2022</div>
+        <div class="award-title">Honorable Mention — Student Excellent Paper Competition</div>
+        <div class="award-org">台灣太陽能及新能源學會 (Taiwan Solar Energy &amp; New Energy Society)</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2021</div>
+        <div class="award-title">Outstanding Engineering Thesis Award (⼯程論⽂佳作獎)</div>
+        <div class="award-org">Taiwan Society of Heating, Refrigerating, and Air Conditioning Engineers (TSHRAE)</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2020</div>
+        <div class="award-title">Academic Excellence Award (成績優異獎)</div>
+        <div class="award-org">National Chin-Yi University of Technology, Taiwan</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2018</div>
+        <div class="award-title">Outstanding Final Project Award</div>
+        <div class="award-org">Bandung Polytechnic, Indonesia</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2018</div>
+        <div class="award-title">Top Graduate with Cum Laude Distinction</div>
+        <div class="award-org">Bandung Polytechnic, Indonesia</div>
+      </div>
+    </div>
+
+    <div class="award-card reveal">
+      <div class="award-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f5d2a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div class="award-content">
+        <div class="award-year">2016</div>
+        <div class="award-title">Djarum Scholarship Awardee</div>
+        <div class="award-org">Djarum Foundation, Indonesia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <span class="section-label reveal">Continuous learning</span>
+  <h2 class="reveal">Certifications</h2>
+  <p class="section-intro reveal">Industry-recognized certifications from MathWorks, Taiwan's Ministry of Labor, and Udemy.</p>
+
+  <div class="cert-grid">
+    <div class="cert-card reveal">
+      <div class="cert-org">MathWorks</div>
+      <div class="cert-name">MATLAB Onramp</div>
+      <div class="cert-year">2024</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">MathWorks</div>
+      <div class="cert-name">Simulink Onramp</div>
+      <div class="cert-year">2024</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Ministry of Labor, Taiwan</div>
+      <div class="cert-name">Architecture BIM Builder</div>
+      <div class="cert-year">2021</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Ministry of Labor, Taiwan</div>
+      <div class="cert-name">Air-conditioning Engineering BIM Builder</div>
+      <div class="cert-year">2021</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Udemy</div>
+      <div class="cert-name">Data Science: Real-Life Data Science Exercises</div>
+      <div class="cert-year">2022</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Udemy</div>
+      <div class="cert-name">Artificial Intelligence Masterclass</div>
+      <div class="cert-year">2020</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Udemy</div>
+      <div class="cert-name">Deep Learning: Hands-On Artificial Neural Networks</div>
+      <div class="cert-year">2019</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-org">Udemy</div>
+      <div class="cert-name">Machine Learning: Hands-On Python in Data Science</div>
+      <div class="cert-year">2019</div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+  <span class="section-label reveal">Multilingual</span>
+  <h2 class="reveal">Languages</h2>
+  <p class="section-intro reveal">Communicating across cultures — Indonesia, Taiwan, and the global research community.</p>
+
+  <div class="lang-grid">
+    <div class="lang-card reveal">
+      <div class="lang-name">🇮🇩 Indonesian</div>
+      <div class="lang-level">Native</div>
+      <div class="lang-bar"><div class="lang-fill" style="width: 100%;"></div></div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-name">🇬🇧 English</div>
+      <div class="lang-level">Professional · TOEIC 715</div>
+      <div class="lang-bar"><div class="lang-fill" style="width: 80%;"></div></div>
+    </div>
+    <div class="lang-card reveal">
+      <div class="lang-name">🇹🇼 Chinese (中文)</div>
+      <div class="lang-level">Conversational · TOCFL A2</div>
+      <div class="lang-bar"><div class="lang-fill" style="width: 45%;"></div></div>
+    </div>
   </div>
 </section>
 
@@ -545,20 +920,15 @@
 <section id="contact">
   <div class="contact-card reveal">
     <span class="section-label">Get in touch</span>
-    <h2>Let's build something <span style="background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">intelligent</span></h2>
+    <h2>Let's build something <span class="grad">intelligent</span></h2>
     <p>Interested in AI for HVAC, energy optimization, or collaborative research? I'd love to hear from you.</p>
-
     <div class="contact-methods">
       <a href="mailto:elsachn12@gmail.com" class="contact-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         elsachn12@gmail.com
       </a>
-      <a href="tel:+886972394404" class="contact-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        +886 972 394 404
-      </a>
-      <a href="#" class="contact-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <a href="https://www.google.com/maps/place/Taiwan" target="_blank" rel="noopener" class="contact-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Taiwan
       </a>
     </div>
@@ -566,11 +936,10 @@
 </section>
 
 <footer>
-  © 2026 Elsa Chaerun Nisa · Built with care · ML Engineer for HVAC &amp; R&amp;D
+  © 2026 Elsa Chaerun Nisa 艾璐紗 · Built with care · ML Engineer for HVAC and Energy System
 </footer>
 
 <script>
-  // Scroll reveal animation
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
