@@ -5,6 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elsa Chaerun Nisa — ML Engineer | HVAC and Energy System</title>
 <style>
+
+ .banner-wrapper {
+  position: relative; z-index: 1;
+  margin-top: 65px;
+  width: 100%;
+  background: #1a1320;
+  overflow: hidden;
+}
+.banner-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+.banner-fade-bottom {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to bottom, transparent, #1a1320);
+  pointer-events: none;
+}
+.banner-fade-left {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 60px;
+  background: linear-gradient(to right, #1a1320, transparent);
+  pointer-events: none;
+}
+.banner-fade-right {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 60px;
+  background: linear-gradient(to left, #1a1320, transparent);
+  pointer-events: none;
+}
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --bg: #1a1320;
@@ -73,7 +102,7 @@
 
   section { position: relative; z-index: 1; padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
  
-  .hero { min-height: auto; display: flex; flex-direction: column; justify-content: center; padding-top: 120px; padding-bottom: 80px; }
+  .hero { min-height: auto; display: flex; flex-direction: column; justify-content: center; padding-top: 120px; padding-bottom: 72px; }
   .status-pill {
     display: inline-flex; align-items: center; gap: 10px;
     background: rgba(255,143,177,0.08); border: 1px solid rgba(255,143,177,0.25);
@@ -324,6 +353,13 @@
   </ul>
 </nav>
 
+<div class="banner-wrapper">
+  <canvas id="b"></canvas>
+  <div class="banner-fade-bottom"></div>
+  <div class="banner-fade-left"></div>
+  <div class="banner-fade-right"></div>
+</div>
+ 
 <!-- HERO -->
 <section class="hero" id="about">
   <div class="status-pill">
@@ -932,6 +968,221 @@
 </footer>
 
 <script>
+
+const cv=document.getElementById('b');
+const c=cv.getContext('2d');
+const W=680,H=170;
+cv.width=W;cv.height=H;
+
+const NNL=[
+  [{x:26,y:32},{x:26,y:68},{x:26,y:105},{x:26,y:142}],
+  [{x:76,y:20},{x:76,y:52},{x:76,y:85},{x:76,y:118},{x:76,y:150}],
+  [{x:128,y:32},{x:128,y:68},{x:128,y:105},{x:128,y:142}],
+  [{x:176,y:45},{x:176,y:88},{x:176,y:131}],
+  [{x:212,y:68},{x:212,y:108}]
+];
+let aPhase=-1,aTimer=0;
+
+const parts=Array.from({length:110},()=>({
+  x:234+Math.random()*205,y:14+Math.random()*142,
+  vx:0.4+Math.random()*0.7,vy:0,
+  sz:1+Math.random()*1.5,ph:Math.random()*Math.PI*2
+}));
+
+const rings=[];let rTimer=0;
+const TCX=562,TCY=85;
+
+let mx=-1,my=-1;
+cv.addEventListener('mousemove',e=>{
+  const r=cv.getBoundingClientRect();
+  mx=(e.clientX-r.left)*(W/r.width);
+  my=(e.clientY-r.top)*(H/r.height);
+});
+cv.addEventListener('mouseleave',()=>{mx=-1;my=-1;});
+
+const dots=[];
+for(let gx=9;gx<W;gx+=18)for(let gy=9;gy<H;gy+=18)dots.push([gx,gy]);
+
+function pCol(y){
+  const t=Math.abs(y-85)/75;
+  if(t<0.25)return`rgba(255,${130+t*60|0},0,0.85)`;
+  if(t<0.5)return`rgba(${(t*200)|0},${140+(t*20)|0},${(t*60)|0},0.75)`;
+  return`rgba(0,${140+(t*25)|0},${175+(t*35)|0},0.7)`;
+}
+
+function rRect(x,y,w,h,r){
+  c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);
+  c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);
+  c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);
+  c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);
+  c.quadraticCurveTo(x,y,x+r,y);c.closePath();
+}
+
+let fr=0;
+const sYs=[22,42,62,83,92,100,118,138,155];
+const sCols=['#006688','#008ba3','#00acc1','#f9a825','#ff8f00','#f9a825','#00acc1','#008ba3','#006688'];
+const sW=[0.8,0.9,1.0,1.4,2.0,1.4,1.0,0.9,0.8];
+
+function draw(){
+  fr++;
+  c.clearRect(0,0,W,H);
+
+  c.fillStyle='#1a1320';c.fillRect(0,0,W,H);
+  c.fillStyle='rgba(6,12,24,0.5)';c.fillRect(0,0,222,H);
+  c.fillStyle='rgba(14,5,0,0.45)';c.fillRect(445,0,235,H);
+
+  c.fillStyle='#2d1f38';
+  for(const[gx,gy]of dots){c.beginPath();c.arc(gx,gy,0.65,0,Math.PI*2);c.fill();}
+
+  let g=c.createRadialGradient(118,85,5,118,85,105);
+  g.addColorStop(0,'rgba(0,100,150,0.13)');g.addColorStop(1,'rgba(0,0,0,0)');
+  c.fillStyle=g;c.fillRect(0,0,222,H);
+  g=c.createRadialGradient(562,85,5,562,85,112);
+  g.addColorStop(0,'rgba(210,75,0,0.11)');g.addColorStop(1,'rgba(0,0,0,0)');
+  c.fillStyle=g;c.fillRect(445,0,235,H);
+
+  aTimer++;
+  const inNN=mx>0&&mx<222;
+  if(aTimer>(inNN?50:90)){aTimer=0;aPhase=0;}
+  if(aPhase>=0&&aTimer%16===0&&aPhase<NNL.length-1)aPhase++;
+
+  for(let l=0;l<NNL.length-1;l++){
+    const act=l<aPhase,firing=l===aPhase;
+    for(const n1 of NNL[l])for(const n2 of NNL[l+1]){
+      c.strokeStyle=firing?'rgba(0,200,255,0.55)':act?'rgba(0,140,190,0.22)':'rgba(13,53,78,0.9)';
+      c.lineWidth=firing?1.2:0.6;
+      c.beginPath();c.moveTo(n1.x,n1.y);c.lineTo(n2.x,n2.y);c.stroke();
+    }
+  }
+
+  for(let l=0;l<NNL.length;l++){
+    const act=l<=aPhase,isOut=l===NNL.length-1;
+    for(const n of NNL[l]){
+      const r=isOut?7.5:3.5+l*0.5;
+      const pulse=act?0.5+0.5*Math.sin(fr*0.09+l*1.3+n.y*0.04):0;
+      if(act){
+        const gl=c.createRadialGradient(n.x,n.y,0,n.x,n.y,r*3);
+        gl.addColorStop(0,`rgba(0,220,255,${0.13*pulse})`);gl.addColorStop(1,'rgba(0,0,0,0)');
+        c.fillStyle=gl;c.beginPath();c.arc(n.x,n.y,r*3,0,Math.PI*2);c.fill();
+      }
+      c.beginPath();c.arc(n.x,n.y,r,0,Math.PI*2);
+      c.fillStyle=act?`rgba(0,${170+pulse*70|0},${210+pulse*45|0},${0.75+pulse*0.25})`:'#020b16';
+      c.fill();
+      c.strokeStyle=act?`rgba(0,229,255,${0.55+pulse*0.45})`:'#0c3d5e';
+      c.lineWidth=1.5;c.stroke();
+      if(isOut&&act){c.beginPath();c.arc(n.x,n.y,2.5,0,Math.PI*2);c.fillStyle=`rgba(255,255,255,${0.55+pulse*0.45})`;c.fill();}
+    }
+  }
+
+  for(const n of NNL[NNL.length-1]){
+    for(const sy of sYs){
+      const dy=Math.abs(sy-85)/75;
+      const al=aPhase>=NNL.length-1?0.35:0.12;
+      c.strokeStyle=dy<0.3?`rgba(255,140,0,${al})`:`rgba(0,155,195,${al})`;
+      c.lineWidth=0.55;c.beginPath();c.moveTo(n.x+8,n.y);c.lineTo(234,sy);c.stroke();
+    }
+  }
+
+  for(let i=0;i<sYs.length;i++){
+    c.strokeStyle=sCols[i];c.lineWidth=sW[i];c.globalAlpha=0.25;
+    c.beginPath();c.moveTo(234,sYs[i]);
+    for(let x=236;x<=442;x+=4){
+      const w=Math.sin(x*0.065+fr*0.022+i*0.8)*3.5;
+      c.lineTo(x,sYs[i]+w);
+    }
+    c.stroke();c.globalAlpha=1;
+  }
+
+  for(let i=0;i<3;i++){
+    const r=11+i*9+Math.sin(fr*0.04+i)*3;
+    c.strokeStyle=`rgba(255,165,0,${0.1-i*0.025})`;
+    c.lineWidth=0.8;c.beginPath();c.arc(330,88,r,0,Math.PI*2);c.stroke();
+  }
+
+  const inStr=mx>234&&mx<442;
+  for(const p of parts){
+    p.ph+=0.025;
+    p.vx=0.45+0.5*Math.sin(p.ph*0.28);
+    if(inStr){const dx=p.x-mx,dy=p.y-my,d=Math.sqrt(dx*dx+dy*dy);if(d<38&&d>1){p.vy+=(dy/d)*0.12;}}
+    p.vy*=0.92;p.vy+=Math.sin(p.ph)*0.065;
+    p.x+=p.vx;p.y=Math.max(13,Math.min(157,p.y+p.vy));
+    if(p.x>443){p.x=235;p.y=14+Math.random()*142;}
+    c.fillStyle=pCol(p.y);c.beginPath();c.arc(p.x,p.y,p.sz,0,Math.PI*2);c.fill();
+  }
+
+  const finYs=[22,47,72,97,122,147];
+  const finSegs=[{x:459,c:'#6b2000'},{x:509,c:'#5a3500'},{x:559,c:'#2d4550'},{x:609,c:'#1e3038'}];
+  c.globalAlpha=0.22;
+  for(const fy of finYs)for(const s of finSegs){c.fillStyle=s.c;c.fillRect(s.x,fy,50,7);}
+  c.globalAlpha=1;
+  c.fillStyle='rgba(180,50,0,0.28)';c.fillRect(448,14,10,142);
+
+  rTimer++;
+  const inTh=mx>445&&mx<W&&mx>0;
+  if(rTimer>(inTh?10:36)){rTimer=0;rings.push({r:6,maxR:inTh?90:68,sp:inTh?1.6:0.9});}
+  for(let i=rings.length-1;i>=0;i--){
+    const r=rings[i];r.r+=r.sp;
+    if(r.r>r.maxR){rings.splice(i,1);continue;}
+    const p=r.r/r.maxR,hue=30-p*30,al=(1-p)*0.65;
+    c.strokeStyle=`hsla(${hue},88%,54%,${al})`;
+    c.lineWidth=1.5*(1-p)+0.3;c.beginPath();c.arc(TCX,TCY,r.r,0,Math.PI*2);c.stroke();
+  }
+
+  const cR=[9,22,36,52,68,82],cC=['rgba(255,248,190,0.65)','rgba(255,200,38,0.58)','rgba(255,150,0,0.52)','rgba(244,122,0,0.46)','rgba(228,72,22,0.4)','rgba(190,52,10,0.34)'];
+  for(let i=0;i<cR.length;i++){c.strokeStyle=cC[i];c.lineWidth=i<2?1.3:0.85;c.beginPath();c.arc(TCX,TCY,cR[i],0,Math.PI*2);c.stroke();}
+  c.fillStyle='#ffca28';c.beginPath();c.arc(TCX,TCY,6,0,Math.PI*2);c.fill();
+  c.fillStyle='#ffffff';c.beginPath();c.arc(TCX,TCY,3,0,Math.PI*2);c.fill();
+
+  c.globalAlpha=0.14;c.strokeStyle='#e64a19';c.lineWidth=0.7;
+  for(let x=460;x<=650;x+=50){c.beginPath();c.moveTo(x,14);c.lineTo(x,156);c.stroke();}
+  c.globalAlpha=1;
+
+  c.setLineDash([2,5]);
+  c.strokeStyle='rgba(30,80,120,0.35)';c.lineWidth=0.6;c.beginPath();c.moveTo(222,8);c.lineTo(222,158);c.stroke();
+  c.strokeStyle='rgba(80,28,8,0.35)';c.beginPath();c.moveTo(445,8);c.lineTo(445,158);c.stroke();
+  c.setLineDash([]);
+
+  // Zone micro-labels (brighter, balanced)
+  c.font='500 8.5px "Courier New",monospace';
+  c.fillStyle='#ffffff';c.textAlign='left';c.fillText('MACHINE LEARNING',12,162);
+  c.fillStyle='#ffffff';c.textAlign='right';c.fillText('THERMAL SYSTEMS',668,162);
+
+  // Central text backdrop
+  c.fillStyle='rgba(3,9,18,0.62)';
+  rRect(W/2-175,38,350,68,5);c.fill();
+  c.strokeStyle='rgba(0,200,235,0.35)';c.lineWidth=0.5;
+  c.beginPath();c.moveTo(W/2-50,60);c.lineTo(W/2+50,60);c.stroke();
+
+  // Name (no PhD)
+  c.textAlign='center';
+  c.font='500 9px "Courier New",monospace';
+  c.fillStyle='rgba(180,225,245,0.88)';
+  c.fillText('E L S A   C H A E R U N   N I S A',W/2,54);
+
+  c.font='bold 19px "Trebuchet MS","Gill Sans","Arial",sans-serif';
+  c.fillStyle='rgba(235,248,255,0.93)';
+  c.fillText('Intelligent Energy Systems',W/2,80);
+
+  c.font='9.5px "Courier New",monospace';
+  c.fillStyle='rgba(148,206,228,0.7)';
+  c.fillText('Machine Learning  ·  HVAC  ·  Thermal Engineering  ·  R&D',W/2,98);
+
+  c.textAlign='left';
+
+  c.strokeStyle='#00e5ff';c.lineWidth=2;c.lineCap='square';
+  c.beginPath();c.moveTo(38,4);c.lineTo(4,4);c.lineTo(4,36);c.stroke();
+  c.strokeStyle='#ff7030';
+  c.beginPath();c.moveTo(642,166);c.lineTo(676,166);c.lineTo(676,134);c.stroke();
+  c.strokeStyle='rgba(0,140,180,0.35)';c.lineWidth=1;
+  c.beginPath();c.moveTo(4,152);c.lineTo(4,166);c.lineTo(20,166);c.stroke();
+  c.strokeStyle='rgba(180,80,30,0.4)';
+  c.beginPath();c.moveTo(660,4);c.lineTo(676,4);c.lineTo(676,18);c.stroke();
+  c.lineCap='butt';
+
+  requestAnimationFrame(draw);
+}
+draw();
+ 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -940,6 +1191,8 @@
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+ 
 </script>
 
 </body>
